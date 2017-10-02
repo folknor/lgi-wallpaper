@@ -30,15 +30,17 @@ for path in pairs(_paths) do
 end
 
 --xfconf-query -l -c xfce4-desktop
---xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-1/workspace0/last-image -s '/home/folk/Pictures/alx83eg.jpg'
--- xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-1/workspace0/rgba1 -s 0.49803921568627 -s 0 -s 1 -s 1
+
+-- xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-1/workspace0/
+--   last-image -s '/home/folk/Pictures/alx83eg.jpg'
+--   rgba1 -s 0.49803921568627 -s 0 -s 1 -s 1
+--   rgba1 -s 1 -t double -s 1 -t double -s 1 -t double -s 1 -t double --create
 local function setAll(tbl, val)
 	for i = 1, #tbl do
 		xfc("-c", "xfce4-desktop", "-p", tbl[i], "-s", val)
 	end
 end
 
--- xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorHDMI-1/workspace0/rgba1 -s 1 -t double -s 1 -t double -s 1 -t double -s 1 -t double --create
 local function setColor(r, g, b)
 	for i = 1, #_setRGBA do
 		xfc("-c", "xfce4-desktop", "-p", _setRGBA[i],
@@ -58,7 +60,7 @@ local function getDominantColor(uri)
 	return tostring(r/255), tostring(g/255), tostring(b/255)
 end
 
-local function set(uri, imageType, width, height)
+local function set(uri, _, width, height)
 	if height > width then
 		local r, g, b = getDominantColor(uri)
 		setColor(r, g, b)

@@ -6,8 +6,6 @@ local lgi = require("lgi")
 local gtk = lgi.Gtk
 local gio = lgi.Gio
 local glib = lgi.GLib
-local gdk = lgi.Gdk
-local GDesktop = lgi.GnomeDesktop
 local assert = lgi.assert
 local _CWD = gio.File.new_for_commandline_arg(arg[0]):get_parent()
 
@@ -76,7 +74,7 @@ local _set
 local _currentSet
 local _waiting = {}
 
-nail.register(function(uuid, file)
+local function thumbnailDone(uuid, file)
 	local waiting = _waiting[uuid]
 	if not waiting then return end
 	if _currentSet ~= waiting.set then return end
@@ -90,7 +88,8 @@ nail.register(function(uuid, file)
 		g.stack:set_visible_child(g.button)
 	end
 	_waiting[uuid] = nil
-end)
+end
+nail.register(thumbnailDone)
 
 local wally
 local function buttonClicked(button)

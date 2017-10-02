@@ -16,7 +16,7 @@ local _incoming, _outgoing, _bytesIn, _bytesOut, _pid
 
 local parse
 parse = function(obj, res)
-	local result, err = obj:read_line_finish_utf8(res)
+	local result = obj:read_line_finish_utf8(res)
 	if result and not _incoming:is_closed() then
 		local uuid, uri = result:match(_incomingFormat)
 		if uuid and uri then
